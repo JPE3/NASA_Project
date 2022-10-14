@@ -5,8 +5,8 @@ const planets  = require('./mongo.planet.js');
 
 let DEFAULT_FLIGHT_NUMBER = 1;
 
-const DefaultLaunch = {
-  mission: 'MISSION DEFAULT',
+const launch = {
+  mission: 'Kepler Exploration X',
   rocket: 'Explorer IS1',
   launchDate: new Date('December 27, 2030'),
   target: 'Kepler-442 b',
@@ -16,13 +16,13 @@ const DefaultLaunch = {
 }
 
 
-addNewLaunch(DefaultLaunch);
+//saveLaunch(launch);
 
 
 async function isLaunchWithId(launchId) {
   return await launches.findOne({
     flightNumber: launchId,
-  });
+  }); 
 }
 
 
@@ -53,8 +53,7 @@ async function addNewLaunch(launch) {
     customers: ['Zero to Mastery', 'NASA'],
     flightNumber: new_flight_number,
   });
-  console.log(NewLaunch);
-  return await saveLaunch(NewLaunch);
+  await saveLaunch(NewLaunch);
 }
 
 
@@ -71,7 +70,6 @@ async function saveLaunch(launch) {
     }, launch, {
       upsert: true,
     });
-    return launch;
   } catch(err) {
     console.error(`Could not save launch ${err}`);
   }
@@ -79,14 +77,13 @@ async function saveLaunch(launch) {
 
 
 async function abortLaunchWithId(launchId) {
-  const aborted = await launches.updateOne({
+  const aborted =  await launches.updateOne({
     flightNumber: launchId,
   }, {
-    upcoming: false,
-    success: false,
+    upcoming : false,
+    success  : false,
   });
-  return (aborted.ok === 1 && aborted.nModified === 1) ||
-         (aborted.matchedCount === 1 && aborted.modifiedCount === 1);
+  return (aborted.modifiedCount === 1);
 }
 
 

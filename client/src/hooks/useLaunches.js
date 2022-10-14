@@ -12,6 +12,7 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
 
   const getLaunches = useCallback(async () => {
     const fetchedLaunches = await httpGetLaunches();
+    console.log('in getLaunches')
     saveLaunches(fetchedLaunches);
   }, []);
 
@@ -37,6 +38,7 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
     const success = response.ok;
     if (success) {
       getLaunches();
+      console.log('after getLaunches called if success')
       setTimeout(() => {
         setPendingLaunch(false);
         onSuccessSound();
@@ -48,7 +50,6 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
 
   const abortLaunch = useCallback(async (id) => {
     const response = await httpAbortLaunch(id);
-
     const success = response.ok;
     if (success) {
       getLaunches();

@@ -2,7 +2,7 @@ const http     = require('http');
 const mongoose = require("mongoose");
 const app      = require('./NasaApp.js');
 
-const { loadPlanetsData } = require('./model/model.planet.js');
+const {loadPlanetsData} = require('./model/model.planet.js');
 
 //process.env.PORT is if there is an environment variable PORT set to the port number you might want to use
 const PORT = process.env.PORT || 8000;
@@ -29,15 +29,6 @@ async function StartServer() {
   admin.buildInfo(function (err, info) {
     console.log(`MongoDB version: ${info.version}`);
   });
-
-  //settings required with versions of MongoDB earlier than 6.xx:
-  // await mongoose.connect(MONGO_URL, {
-  //   useNewUrlParser    : true,
-  //   useFindAndModify   : false,
-  //   useCreateIndex     : true,
-  //   useUnifiedTopology : true,
-  // });
-
   await loadPlanetsData();
   server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}...`);

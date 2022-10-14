@@ -8,15 +8,15 @@ const routerLaunch = require('./router/launch/router.launch.js');
 
 const app = express();
 
-app.use(cors({origin: 'http://localhost:3000'}));
+app.use(cors({origin: 'http://localhost:8000/'}));
 
 app.use(morgan('combined'));
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-app.use('/planets', routerPlanet);
-app.use('/launches', routerLaunch);
+app.use('/v1/planets', routerPlanet);
+app.use('/v1/launches', routerLaunch);
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
