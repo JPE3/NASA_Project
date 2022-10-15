@@ -2,7 +2,8 @@ const express = require('express');
 
 const { httpGetAllLaunches, 
         httpAddNewLaunch,
-        httpAbortLaunch, 
+        httpAbortLaunch,
+        httpRestoreLaunch, 
       } = require('./controller.launch')
 
 const routerLaunch = express.Router();
@@ -11,6 +12,7 @@ const routerLaunch = express.Router();
 routerLaunch.get('/', httpGetAllLaunches);
 routerLaunch.post('/', httpAddNewLaunch);
 routerLaunch.delete('/:id', httpAbortLaunch);
+routerLaunch.put('/:id', httpRestoreLaunch);
 
 module.exports = routerLaunch; //WTF IS THIS NOT SURROUNDED BY {} AND WTF DOES IT BREAK WHEN IT IS!?
 

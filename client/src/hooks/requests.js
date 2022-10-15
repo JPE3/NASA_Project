@@ -48,9 +48,25 @@ async function httpAbortLaunch(id) {
 }
 
 
+// Restore an aborted launch with given ID.
+async function httpRestoreLaunch(id) {
+  try {
+    return await fetch(`${API_URL}/launches/${id}`, {
+      method: "put",
+    });
+  } catch(err) {
+    console.log(err);
+    return {
+      ok: false
+    };
+  }
+}
+
+
 export {
   httpGetPlanets,
   httpGetLaunches,
   httpSubmitLaunch,
   httpAbortLaunch,
+  httpRestoreLaunch,
 };

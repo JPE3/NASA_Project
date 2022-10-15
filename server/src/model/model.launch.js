@@ -87,9 +87,21 @@ async function abortLaunchWithId(launchId) {
 }
 
 
+async function restoreLaunchWithId(launchId) {
+  const aborted =  await launches.updateOne({
+    flightNumber: launchId,
+  }, {
+    upcoming : true,
+    success  : true,
+  });
+  return (aborted.modifiedCount === 1);
+}
+
+
 module.exports = {
   isLaunchWithId,
   getAllLaunches,
   addNewLaunch,
   abortLaunchWithId,
+  restoreLaunchWithId,
 }

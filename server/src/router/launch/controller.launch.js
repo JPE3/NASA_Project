@@ -2,7 +2,8 @@ const {
   isLaunchWithId,
   getAllLaunches,
   addNewLaunch,
-  abortLaunchWithId, 
+  abortLaunchWithId,
+  restoreLaunchWithId, 
 } = require('../../model/model.launch.js');
 
 
@@ -58,9 +59,33 @@ async function httpAbortLaunch(req, res) {
 }
 
 
+async function httpRestoreLaunch(req, res) {
+  const launchId = Number(req.params.id);
+  const is_exist = await isLaunchWithId(launchId); 
+  if (!is_exist) {
+    return res.status(404).json({
+      error: 'Launch not found',
+    });
+  }
+  const restored = await restoreLaunchWithId(launchId);
+  if (restored) {
+    return res.status(200).json({
+      success: 'Launch restored',
+      ok : true,
+    });
+  } else {
+    return res.status(400).json({
+      error: 'Launch not restored',
+      ok: false,
+    })
+  }
+}
+
+
 
 module.exports = {
   httpGetAllLaunches,
   httpAddNewLaunch,
-  httpAbortLaunch
+  httpAbortLaunch,
+  httpRestoreLaunch,
 };
