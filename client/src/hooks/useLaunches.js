@@ -5,6 +5,7 @@ import {
   httpSubmitLaunch,
   httpAbortLaunch,
   httpRestoreLaunch,
+  httpDeleteLaunch,
 } from './requests';
 
 function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
@@ -71,12 +72,24 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
     }
   }, [getLaunches, onAbortSound, onFailureSound]);
 
+  const deleteLaunch = useCallback(async (id) => {
+    const response = await httpDeleteLaunch(id);
+    const success = response.ok;
+    if (success) {
+      getLaunches();
+      onAbortSound();
+    } else {
+      onFailureSound();
+    }
+  }, [getLaunches, onAbortSound, onFailureSound]);
+
   return {
     launches,
     isPendingLaunch,
     submitLaunch,
     abortLaunch,
     restoreLaunch,
+    deleteLaunch,
   };
 }
 

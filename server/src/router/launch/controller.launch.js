@@ -4,6 +4,7 @@ const {
   addNewLaunch,
   abortLaunchWithId,
   restoreLaunchWithId, 
+  deleteLaunchWithId,
 } = require('../../model/model.launch.js');
 
 
@@ -82,10 +83,35 @@ async function httpRestoreLaunch(req, res) {
 }
 
 
+async function httpDeleteLaunch(req, res) {
+  const launchId = Number(req.params.id);
+  console.log('launchid :' + launchId + ' inside delete')
+  const is_exist = await isLaunchWithId(launchId); 
+  console.log('is exist :' + is_exist + ' inside delete')
+  if (!is_exist) {
+    return res.status(404).json({
+      error: 'Launch Id#' + launchId + ' not found',
+    });
+  }
+  const deleted = await deleteLaunchWithId(launchId);
+  if (deleted) {
+    return res.status(200).json({
+      success: 'Launch deleted',
+      ok : true,
+    });
+  } else {
+    return res.status(400).json({
+      error: 'Launch not deleted',
+      ok: false,
+    })
+  }
+}
+
 
 module.exports = {
   httpGetAllLaunches,
   httpAddNewLaunch,
   httpAbortLaunch,
   httpRestoreLaunch,
+  httpDeleteLaunch,
 };

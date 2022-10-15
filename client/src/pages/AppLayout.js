@@ -57,6 +57,7 @@ const AppLayout = props => {
     submitLaunch,
     abortLaunch,
     restoreLaunch,
+    deleteLaunch,
   } = useLaunches(onSuccessSound, onAbortSound, onFailureSound);
 
   const planets = usePlanets();
@@ -94,7 +95,7 @@ const AppLayout = props => {
             <Route exact path="/history">
               <History entered={anim.entered} 
               launches={launches} 
-              abortLaunch={abortLaunch}
+              deleteLaunch={deleteLaunch}
               restoreLaunch={restoreLaunch} />
             </Route>
           </Switch>

@@ -98,10 +98,20 @@ async function restoreLaunchWithId(launchId) {
 }
 
 
+async function deleteLaunchWithId(launchId) {
+  const deleted = await launches.deleteOne({
+    flightNumber: launchId,
+  });
+  console.log(deleted);
+  return (true);
+}
+
+
 module.exports = {
   isLaunchWithId,
   getAllLaunches,
   addNewLaunch,
   abortLaunchWithId,
   restoreLaunchWithId,
+  deleteLaunchWithId
 }
